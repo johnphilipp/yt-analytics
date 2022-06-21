@@ -115,10 +115,22 @@ def get_replies_for(comments):
 # Return a df with filtered and stitched comment and reply data for a 
 # video id
 
-def get_comments_and_replies_for(vid):
-    # Get comments and replies data for video id
-    comments = get_comments_for(vid)
-    replies = get_replies_for(comments)
+def get_comments_and_replies_for(vid, offline=False):
+    # Get comments and replies data for video id (via API or offline)
+    if offline == False:
+        comments = get_comments_for(vid)
+        replies = get_replies_for(comments)
+    else:
+        import json
+
+        comments_path = "/Users/philippjohn/Developer/youtube-analytics/data/comments.json"
+        replies_path = "/Users/philippjohn/Developer/youtube-analytics/data/replies.json"
+
+        with open(comments_path) as fp:
+            comments = json.load(fp)
+
+        with open(replies_path) as fp:
+            replies = json.load(fp)
 
     # Filter and stitch comments and replies
     data = []
@@ -140,7 +152,7 @@ def get_comments_and_replies_for(vid):
                             data.append([reply_id, reply])
 
     # Filter and stitch a df with named cols
-    df = pd.DataFrame(np.array(data), columns=["id", "comment_reply"])
+    df = pd.DataFrame(np.array(data), columns=["id", "content"])
 
     return df
 
