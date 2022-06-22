@@ -4,6 +4,9 @@ import nltk
 from nltk.corpus import stopwords
 import pandas as pd
 
+
+data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
+
 def basic_clean(car, df):
     # Creating function to clean comments
     def clean(content):
@@ -16,7 +19,7 @@ def basic_clean(car, df):
     df["content_clean"] = df["content"].apply(clean)
 
     # Write df to csv
-    df.to_csv("data/" + car + "/content_clean.csv")  
+    df.to_csv(data_path + car + "/content_clean.csv")  
 
     return df
 
@@ -32,19 +35,19 @@ def remove_stopwords(car, df):
 
     # Remove col[0] (csv index) and NaNs
     df = df.drop(df.columns[0], axis=1)
-    df = df[df['content_clean'].notnull()]
+    df = df[df["content_clean"].notnull()]
 
     # Remove stopwords and create new col in df
-    df['content_no_stopwords']  = df['content_clean'].apply(stop_word_removal_nltk)
+    df["content_no_stopwords"]  = df["content_clean"].apply(stop_word_removal_nltk)
 
     # Write df to csv
-    df.to_csv("data/" + car + "/content_no_stopwords.csv")  
+    df.to_csv(data_path + car + "/content_no_stopwords.csv")  
 
     return df
 
 def main():
-    car = "Bugatti_Centodieci"
-    df = pd.read_csv("data/" + car + "/content_clean.csv", header=[0])
+    car = "Pininfarina_Battista"
+    df = pd.read_csv(data_path + car + "/content_clean.csv", header=[0])
     print(df.head())
     print("")
 

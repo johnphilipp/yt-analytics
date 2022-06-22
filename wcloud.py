@@ -4,19 +4,21 @@ import pandas as pd
 import clean
 
 
+data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
+
 def generate_wordcloud(car, df, file_name="wordcloud"):
     all_words = " ".join([w for w in df["content_no_stopwords"]])
     wordcloud = WordCloud(width=500, height=300, random_state=21, max_font_size=119).generate(all_words)
 
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
-    plt.savefig("data/" + car + "/" + file_name + ".jpg")
+    plt.savefig(data_path + car + "/" + file_name + ".jpg")
 
 def main():
     car = "Pininfarina_Battista"
 
     # 1) Get content
-    df = pd.read_csv("data/" + car + "/content_clean.csv", header=[0], lineterminator='\n')
+    df = pd.read_csv(data_path + car + "/content_clean.csv", header=[0], lineterminator='\n')
     print(df.head())
     print("")
 

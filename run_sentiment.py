@@ -1,18 +1,20 @@
 import content
 import clean
 import sentiment
+import pandas as pd
 
 
+data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
 car = "Pininfarina_Battista"
 
 # 1) Get content
-df = content.get_content(car, offline=True)
+df = df = pd.read_csv(data_path + car + "/content.csv", header=[0], lineterminator='\n')
 print(df.head())
 print("")
 
 # 2) Clean
 content_clean = clean.basic_clean(car, df)
-print(content_clean.head() + "\n")
+print(content_clean.head())
 print("")
 
 # 3) Get sentiment

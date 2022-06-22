@@ -3,21 +3,17 @@ import os
 import googleapiclient.discovery
 import pandas as pd
 import numpy as np
-import re
-import matplotlib.pyplot as plt
-from wordcloud import WordCloud
-import torch
-from textblob import TextBlob
 import json
 
+
+data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
 
 #-----------------------------------------------------------------------
 
 # Make new dir for car
 
 def mkdir(car):
-    parent_path = "/Users/philippjohn/Developer/youtube-analytics"
-    Path(parent_path + "/data/" + car).mkdir(parents=True, exist_ok=True)
+    Path(data_path + car).mkdir(parents=True, exist_ok=True)
 
 #-----------------------------------------------------------------------
 
@@ -68,7 +64,7 @@ def get_comments(vid, car="Car_Name"):
         pageToken = page.get("nextPageToken")
     
     # Write to json
-    with open("data/" + car + "/comments.json", "w") as f:
+    with open(data_path + car + "/comments.json", "w") as f:
         json.dump(comments, f)
 
     return comments
@@ -123,7 +119,7 @@ def get_replies(comments, car):
             pageToken = page.get("nextPageToken")
 
     # Write to json
-    with open("data/" + car + "/replies.json", "w") as f:
+    with open(data_path + car + "/replies.json", "w") as f:
         json.dump(replies, f)
     
     return replies   
@@ -133,23 +129,13 @@ def get_replies(comments, car):
 # Return a df with filtered and stitched comment and reply data for a 
 # video id
 
-def get_content(car, vid="", offline=False):
+def get_content(car, vid):
     # Make new dir for car name if not already existing
     mkdir(car)
 
-    # Get comments and replies data for video id (via API or offline)
-    if offline == False:
-        comments = get_comments(vid, car)
-        replies = get_replies(comments, car)
-    else:
-        comments_path = "/Users/philippjohn/Developer/youtube-analytics/data/" + car + "/comments.json"
-        replies_path = "/Users/philippjohn/Developer/youtube-analytics/data/" + car + "/replies.json"
-
-        with open(comments_path) as fp:
-            comments = json.load(fp)
-
-        with open(replies_path) as fp:
-            replies = json.load(fp)
+    # Get comments and replies data for video id
+    comments = get_comments(vid, car)
+    replies = get_replies(comments, car)
 
     # Filter and stitch comments and replies
     data = []
@@ -174,7 +160,7 @@ def get_content(car, vid="", offline=False):
     df = pd.DataFrame(np.array(data), columns=["id", "content"])
 
     # Write df
-    df.to_csv("data/" + car + "/content.csv")  
+    df.to_csv(data_path + car + "/content.csv")  
 
     return df
 
