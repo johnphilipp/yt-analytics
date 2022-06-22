@@ -7,6 +7,11 @@ import pandas as pd
 
 data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
 
+#-----------------------------------------------------------------------
+
+# Return a df with cleaned content (remove @abc mentions, links, and 
+# punctuation)
+
 def basic_clean(car, df):
     # Creating function to clean comments
     def clean(content):
@@ -22,6 +27,10 @@ def basic_clean(car, df):
     df.to_csv(data_path + car + "/content_clean.csv")  
 
     return df
+
+#-----------------------------------------------------------------------
+
+# Return a df where stopwords are removed from content
 
 def remove_stopwords(car, df):
     # Download and select stopwords
@@ -44,6 +53,10 @@ def remove_stopwords(car, df):
     df.to_csv(data_path + car + "/content_no_stopwords.csv")  
 
     return df
+
+#-----------------------------------------------------------------------
+
+# Testing
 
 def main():
     car = "Pininfarina_Battista"
