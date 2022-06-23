@@ -1,4 +1,4 @@
-import content
+from utils import content
 
 
 car = "Pininfarina_Battista"

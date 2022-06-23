@@ -1,5 +1,4 @@
-import content
-import clean
+from utils import clean
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 from textblob import TextBlob

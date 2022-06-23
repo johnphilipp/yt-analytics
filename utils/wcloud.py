@@ -1,7 +1,7 @@
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import pandas as pd
-import clean
+from utils import clean
 
 
 data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
