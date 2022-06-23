@@ -61,6 +61,7 @@ def remove_stopwords(car, df):
 def main():
     car = "Pininfarina_Battista"
     df = pd.read_csv(data_path + car + "/content_clean.csv", header=[0])
+    df = df.drop(['Unnamed: 0'], axis=1, errors='ignore')
     print(df.head())
     print("")
 

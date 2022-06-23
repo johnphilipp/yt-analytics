@@ -24,7 +24,8 @@ print("")
 print("2) Calculate sentiment")
 # 2.1) Get content
 print("   2.1) Get content")
-df = df = pd.read_csv(data_path + car + "/content.csv", header=[0], lineterminator='\n')
+df = pd.read_csv(data_path + car + "/content.csv", header=[0], lineterminator='\n')
+df = df.drop(['Unnamed: 0'], axis=1, errors='ignore')
 
 # 2.2) Clean
 print("   2.2) Clean")
@@ -43,6 +44,7 @@ print("3) Generate wordcloud")
 # 3.1) Get content
 print("   3.1) Get content")
 df = pd.read_csv(data_path + car + "/content_clean.csv", header=[0], lineterminator='\n')
+df = df.drop(['Unnamed: 0'], axis=1, errors='ignore')
 
 # 3.2) Clean
 print("   3.2) Clean")

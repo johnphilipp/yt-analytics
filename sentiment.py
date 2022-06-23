@@ -77,6 +77,7 @@ def main():
     print('1) Get content')
     print('--------------------')
     df = df = pd.read_csv(data_path + car + "/content.csv", header=[0], lineterminator='\n')
+    df = df.drop(['Unnamed: 0'], axis=1, errors='ignore')
     print(df.head())
     print("")
 
