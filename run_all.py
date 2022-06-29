@@ -7,17 +7,20 @@ import pandas as pd
 
 
 data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
-car = "Porsche_911_Carrera_S__Top_Gear" 
-video_id = "SjrarcM7HoY" 
+car = "BMW_M3_Touring__Top_Gear" 
+# car = "Hennessey Venom F5"
+# channel = "Top Gear"
+# --> re.sub blank to _ before mkdir
+video_url = "https://youtu.be/UqFH8zAlFRU" 
 
 #-----------------------------------------------------------------------
 
 # 1) Get content
 print("")
-print("1) Get content")
+print("1) Get content for " + car)
 
 # 1.1) Get content
-comments = content.get_content(car, video_id)
+comments = content.get_content(car, video_url)
 
 #-----------------------------------------------------------------------
 

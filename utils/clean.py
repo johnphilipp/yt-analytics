@@ -17,6 +17,8 @@ def basic_clean(car, df):
     def clean(content):
         content = re.sub(r"@[A-Za-z0-9]+", "", content)
         content = re.sub(r"https?:\/\/\S+", "", content)
+        content = re.sub(r"http?:\/\/\S+", "", content)
+        content = re.sub(r",", "", content)
         content = content.translate(str.maketrans("", "", punctuation))
         return content
 

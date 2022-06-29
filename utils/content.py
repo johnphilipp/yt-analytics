@@ -129,7 +129,10 @@ def get_replies(comments, car):
 # Return a df with filtered and stitched comment and reply data for a 
 # video id
 
-def get_content(car, vid):
+def get_content(car, video_url):
+    # Get video id from video url
+    vid = video_url.rsplit('/', 1)[-1]
+
     # Make new dir for car name if not already existing
     mkdir(car)
 
