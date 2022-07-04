@@ -5,15 +5,11 @@ from textblob import TextBlob
 import pandas as pd
 import os
 
-
-main_dir = os.path.dirname(__file__)
-data_dir = os.path.join(main_dir, "data")
-
 #-----------------------------------------------------------------------
 
 # Return a df with sentiment score based on transformers
 
-def calculate_sentiment_transformers(car, df):
+def sentiment_transformers(dir, df):
     # Initiate model
     tokenizer = AutoTokenizer.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
     model = AutoModelForSequenceClassification.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
@@ -28,7 +24,7 @@ def calculate_sentiment_transformers(car, df):
     df["sentiment"] = df["content_clean"].apply(lambda x: sentiment_score(x[:512]))
 
     # Write df to csv
-    df.to_csv(data_dir + car + "/sentiment_1.csv")  
+    df.to_csv(dir + "/sentiment_1.csv")  
 
     return df
 
@@ -37,7 +33,7 @@ def calculate_sentiment_transformers(car, df):
 # Return a df with sentiment score (subjectivity and polarity) based on 
 # textblob
 
-def calculate_sentiment_textblob(car, df):
+def sentiment_textblob(dir, df):
     # Create func to get subjectivity
     def get_subjectivity(text):
         return TextBlob(text).sentiment.subjectivity
@@ -63,43 +59,6 @@ def calculate_sentiment_textblob(car, df):
     df["analysis"] = df["polarity"].apply(get_analysis)
 
     # Write df to csv
-    df.to_csv(data_dir + car + "/sentiment_2.csv")  
+    df.to_csv(dir + "/sentiment_2.csv")  
 
     return df
-
-#-----------------------------------------------------------------------
-
-# Testing
-
-def main():
-    car = "Pininfarina_Battista"
-
-    # 1) Get content
-    print('1) Get content')
-    print('--------------------')
-    df = df = pd.read_csv(data_dir + car + "/content.csv", header=[0], lineterminator='\n')
-    df = df.drop(['Unnamed: 0'], axis=1, errors='ignore')
-    print(df.head())
-    print("")
-
-    # 2) Clean
-    print('2) Clean')
-    print('--------------------')
-    df_clean = clean.basic_clean(car, df)
-    print(df_clean.head())
-    print("")
-
-    # 3) Get sentiment
-    print('3) Get sentiment')
-    print('--------------------')
-    sentiment_1 = calculate_sentiment_transformers(car, df_clean)
-    print(sentiment_1.head())
-    print("")
-
-    sentiment_2 = calculate_sentiment_textblob(car, sentiment_1)
-    print(sentiment_2.head())
-    print("")
-
-if __name__ == '__main__':
-    main()
-

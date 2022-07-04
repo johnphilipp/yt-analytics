@@ -3,18 +3,13 @@ import re
 import nltk
 from nltk.corpus import stopwords
 import pandas as pd
-import os
-
-
-main_dir = os.path.dirname(__file__)
-data_dir = os.path.join(main_dir, "data")
 
 #-----------------------------------------------------------------------
 
 # Return a df with cleaned content (remove @abc mentions, links, and 
 # punctuation)
 
-def basic_clean(car, df):
+def basic_clean(dir, df):
     # Creating function to clean comments
     def clean(content):
         content = re.sub(r"@[A-Za-z0-9]+", "", content)
@@ -27,7 +22,7 @@ def basic_clean(car, df):
     df["content_clean"] = df["content"].apply(clean)
 
     # Write df to csv
-    df.to_csv(data_dir + car + "/content_clean.csv")  
+    df.to_csv(dir + "/content_clean.csv")  
 
     return df
 
@@ -35,7 +30,7 @@ def basic_clean(car, df):
 
 # Return a df where stopwords are removed from content
 
-def remove_stopwords(car, df):
+def remove_stopwords(dir, df):
     # Download and select stopwords
     nltk.download('stopwords')
     english_stop_words = stopwords.words('english')
@@ -53,24 +48,6 @@ def remove_stopwords(car, df):
     df["content_no_stopwords"]  = df["content_clean"].apply(stop_word_removal_nltk)
 
     # Write df to csv
-    df.to_csv(data_dir + car + "/content_no_stopwords.csv")  
+    df.to_csv(dir + "/content_no_stopwords.csv")  
 
     return df
-
-#-----------------------------------------------------------------------
-
-# Testing
-
-def main():
-    car = "Pininfarina_Battista"
-    df = pd.read_csv(data_dir + car + "/content_clean.csv", header=[0])
-    df = df.drop(['Unnamed: 0'], axis=1, errors='ignore')
-    print(df.head())
-    print("")
-
-    df_no_stopwords = remove_stopwords(car=car, df=df)
-    print(df_no_stopwords.head())
-    print("")
-
-if __name__=='__main__':
-    main()

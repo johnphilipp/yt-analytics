@@ -1,27 +1,15 @@
 from pathlib import Path
-import os
 import googleapiclient.discovery
 import pandas as pd
 import numpy as np
 import json
 import os
 
-
-main_dir = os.path.dirname(__file__)
-data_dir = os.path.join(main_dir, "data")
-
-#-----------------------------------------------------------------------
-
-# Make new dir for car
-
-def mkdir(car):
-    Path(data_dir + car).mkdir(parents=True, exist_ok=True)
-
 #-----------------------------------------------------------------------
 
 # Return a list with comment data for a yt video
 
-def get_comments(vid, car="Car_Name"):
+def _get_comments(dir, vid):
     # -*- coding: utf-8 -*-
 
     # Sample Python code for youtube.comments.list
@@ -66,7 +54,7 @@ def get_comments(vid, car="Car_Name"):
         pageToken = page.get("nextPageToken")
     
     # Write to json
-    with open(data_dir + car + "/comments.json", "w") as f:
+    with open(dir + "/comments.json", "w") as f:
         json.dump(comments, f)
 
     return comments
@@ -75,7 +63,7 @@ def get_comments(vid, car="Car_Name"):
 
 # Return a list with reply data for a list of comments
 
-def get_replies(comments, car):
+def _get_replies(dir, comments):
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
@@ -121,7 +109,7 @@ def get_replies(comments, car):
             pageToken = page.get("nextPageToken")
 
     # Write to json
-    with open(data_dir + car + "/replies.json", "w") as f:
+    with open(dir + "/replies.json", "w") as f:
         json.dump(replies, f)
     
     return replies   
@@ -131,16 +119,16 @@ def get_replies(comments, car):
 # Return a df with filtered and stitched comment and reply data for a 
 # video id
 
-def get_content(car, video_url):
+def get_content(dir, url):
     # Get video id from video url
-    vid = video_url.rsplit('/', 1)[-1]
-
-    # Make new dir for car name if not already existing
-    mkdir(car)
+    if "=" in url:
+        vid = url.rsplit('=', 1)[-1]
+    else:
+        vid = url.rsplit('/', 1)[-1]
 
     # Get comments and replies data for video id
-    comments = get_comments(vid, car)
-    replies = get_replies(comments, car)
+    comments = _get_comments(dir, vid)
+    replies = _get_replies(dir, comments)
 
     # Filter and stitch comments and replies
     data = []
@@ -165,24 +153,6 @@ def get_content(car, video_url):
     df = pd.DataFrame(np.array(data), columns=["id", "content"])
 
     # Write df
-    df.to_csv(data_dir + car + "/content.csv")  
+    df.to_csv(dir + "/content.csv")  
 
     return df
-
-#-----------------------------------------------------------------------
-
-# Testing
-
-def main():
-    car = "Pininfarina_Battista"
-    video_id = "ZfnFL-wp-dg"
-
-    # 1) Get content
-    print('1) Get content')
-    print('--------------------')
-    df = get_content(car, video_id)
-    print(df.head())
-    print("")
-        
-if __name__ == "__main__":
-    main()

@@ -3,11 +3,15 @@ import plotly.express as px
 import pandas as pd
 import os
 
+#-----------------------------------------------------------------------
+
 # https://github.com/streamlit/example-app-commenting/blob/main/utils/chart.py
 # https://share.streamlit.io/streamlit/example-app-commenting/main
 
 main_dir = os.path.dirname(__file__)
 data_dir = os.path.join(main_dir, "data")
+
+#-----------------------------------------------------------------------
 
 def merge_df(cars):
     # Get and merge dfs
@@ -25,10 +29,14 @@ def merge_df(cars):
 
     return df
 
+#-----------------------------------------------------------------------
+
 def space(num_lines=1):
     """Adds empty lines to the Streamlit app."""
     for _ in range(num_lines):
         st.write("")
+
+#-----------------------------------------------------------------------
 
 def radar_chart(df):  
     fig = px.line_polar(df, 
@@ -47,6 +55,8 @@ def radar_chart(df):
                         direction='clockwise')  # or counterclockwise
     fig.update_traces(fill='toself')
     st.write(fig)
+
+#-----------------------------------------------------------------------
 
 def main():
     st.set_page_config(layout="centered", page_icon="🚗", page_title="YouTube Comment Analyzer")
@@ -75,6 +85,8 @@ def main():
     source = source[source["car"].isin(models)]
     source = source[source["feature"].isin(features)]
     radar_chart(source)
+
+#-----------------------------------------------------------------------
 
 if __name__ == '__main__':
     main()
