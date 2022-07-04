@@ -4,16 +4,18 @@ import googleapiclient.discovery
 import pandas as pd
 import numpy as np
 import json
+import os
 
 
-data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
+main_dir = os.path.dirname(__file__)
+data_dir = os.path.join(main_dir, "data")
 
 #-----------------------------------------------------------------------
 
 # Make new dir for car
 
 def mkdir(car):
-    Path(data_path + car).mkdir(parents=True, exist_ok=True)
+    Path(data_dir + car).mkdir(parents=True, exist_ok=True)
 
 #-----------------------------------------------------------------------
 
@@ -64,7 +66,7 @@ def get_comments(vid, car="Car_Name"):
         pageToken = page.get("nextPageToken")
     
     # Write to json
-    with open(data_path + car + "/comments.json", "w") as f:
+    with open(data_dir + car + "/comments.json", "w") as f:
         json.dump(comments, f)
 
     return comments
@@ -119,7 +121,7 @@ def get_replies(comments, car):
             pageToken = page.get("nextPageToken")
 
     # Write to json
-    with open(data_path + car + "/replies.json", "w") as f:
+    with open(data_dir + car + "/replies.json", "w") as f:
         json.dump(replies, f)
     
     return replies   
@@ -163,7 +165,7 @@ def get_content(car, video_url):
     df = pd.DataFrame(np.array(data), columns=["id", "content"])
 
     # Write df
-    df.to_csv(data_path + car + "/content.csv")  
+    df.to_csv(data_dir + car + "/content.csv")  
 
     return df
 

@@ -2,13 +2,15 @@ import content
 import clean
 import sentiment
 import pandas as pd
+import os
 
 
-data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
+main_dir = os.path.dirname(__file__)
+data_dir = os.path.join(main_dir, "data")
 car = "Pininfarina_Battista"
 
 # 1) Get content
-df = df = pd.read_csv(data_path + car + "/content.csv", header=[0], lineterminator='\n')
+df = df = pd.read_csv(data_dir + car + "/content.csv", header=[0], lineterminator='\n')
 df = df.drop(['Unnamed: 0'], axis=1, errors='ignore')
 print(df.head())
 print("")

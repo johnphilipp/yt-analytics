@@ -3,9 +3,11 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 from textblob import TextBlob
 import pandas as pd
+import os
 
 
-data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
+main_dir = os.path.dirname(__file__)
+data_dir = os.path.join(main_dir, "data")
 
 #-----------------------------------------------------------------------
 
@@ -26,7 +28,7 @@ def calculate_sentiment_transformers(car, df):
     df["sentiment"] = df["content_clean"].apply(lambda x: sentiment_score(x[:512]))
 
     # Write df to csv
-    df.to_csv(data_path + car + "/sentiment_1.csv")  
+    df.to_csv(data_dir + car + "/sentiment_1.csv")  
 
     return df
 
@@ -61,7 +63,7 @@ def calculate_sentiment_textblob(car, df):
     df["analysis"] = df["polarity"].apply(get_analysis)
 
     # Write df to csv
-    df.to_csv(data_path + car + "/sentiment_2.csv")  
+    df.to_csv(data_dir + car + "/sentiment_2.csv")  
 
     return df
 
@@ -75,7 +77,7 @@ def main():
     # 1) Get content
     print('1) Get content')
     print('--------------------')
-    df = df = pd.read_csv(data_path + car + "/content.csv", header=[0], lineterminator='\n')
+    df = df = pd.read_csv(data_dir + car + "/content.csv", header=[0], lineterminator='\n')
     df = df.drop(['Unnamed: 0'], axis=1, errors='ignore')
     print(df.head())
     print("")

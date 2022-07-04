@@ -2,9 +2,11 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import pandas as pd
 from utils import clean
+import os
 
 
-data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
+main_dir = os.path.dirname(__file__)
+data_dir = os.path.join(main_dir, "data")
 
 #-----------------------------------------------------------------------
 
@@ -16,7 +18,7 @@ def generate_wordcloud(car, df, file_name="wordcloud"):
 
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
-    plt.savefig(data_path + car + "/" + file_name + ".jpg")
+    plt.savefig(data_dir + car + "/" + file_name + ".jpg")
 
 #-----------------------------------------------------------------------
 
@@ -26,7 +28,7 @@ def main():
     car = "Pininfarina_Battista"
 
     # 1) Get content
-    df = pd.read_csv(data_path + car + "/content_clean.csv", header=[0], lineterminator='\n')
+    df = pd.read_csv(data_dir + car + "/content_clean.csv", header=[0], lineterminator='\n')
     df = df.drop(['Unnamed: 0'], axis=1, errors='ignore')
     print(df.head())
     print("")

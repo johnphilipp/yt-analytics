@@ -3,9 +3,11 @@ import re
 import nltk
 from nltk.corpus import stopwords
 import pandas as pd
+import os
 
 
-data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
+main_dir = os.path.dirname(__file__)
+data_dir = os.path.join(main_dir, "data")
 
 #-----------------------------------------------------------------------
 
@@ -18,7 +20,6 @@ def basic_clean(car, df):
         content = re.sub(r"@[A-Za-z0-9]+", "", content)
         content = re.sub(r"https?:\/\/\S+", "", content)
         content = re.sub(r"http?:\/\/\S+", "", content)
-        content = re.sub(r",", "", content)
         content = content.translate(str.maketrans("", "", punctuation))
         return content
 
@@ -26,7 +27,7 @@ def basic_clean(car, df):
     df["content_clean"] = df["content"].apply(clean)
 
     # Write df to csv
-    df.to_csv(data_path + car + "/content_clean.csv")  
+    df.to_csv(data_dir + car + "/content_clean.csv")  
 
     return df
 
@@ -52,7 +53,7 @@ def remove_stopwords(car, df):
     df["content_no_stopwords"]  = df["content_clean"].apply(stop_word_removal_nltk)
 
     # Write df to csv
-    df.to_csv(data_path + car + "/content_no_stopwords.csv")  
+    df.to_csv(data_dir + car + "/content_no_stopwords.csv")  
 
     return df
 
@@ -62,7 +63,7 @@ def remove_stopwords(car, df):
 
 def main():
     car = "Pininfarina_Battista"
-    df = pd.read_csv(data_path + car + "/content_clean.csv", header=[0])
+    df = pd.read_csv(data_dir + car + "/content_clean.csv", header=[0])
     df = df.drop(['Unnamed: 0'], axis=1, errors='ignore')
     print(df.head())
     print("")

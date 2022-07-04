@@ -1,11 +1,13 @@
 from utils import features
 import pandas as pd
+import os
 
 
-data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
+main_dir = os.path.dirname(__file__)
+data_dir = os.path.join(main_dir, "data")
 car = "Porsche_911_Sport_Classic​"
 
-df = pd.read_csv(data_path + car + "/sentiment_1.csv", header=[0], lineterminator='\n')
+df = pd.read_csv(data_dir + car + "/sentiment_1.csv", header=[0], lineterminator='\n')
 df = df.drop(['Unnamed: 0'], axis=1, errors='ignore')
 
 feature_list = ["rim", "steering wheel", "engine", "color", "colour",

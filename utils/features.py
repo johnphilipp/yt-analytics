@@ -1,7 +1,9 @@
 import pandas as pd
+import os
 
 
-data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
+main_dir = os.path.dirname(__file__)
+data_dir = os.path.join(main_dir, "data")
 
 #-----------------------------------------------------------------------
 
@@ -25,7 +27,7 @@ def get_features(car, df, feature_list):
         df_features = pd.concat([df_features, get_single_feature(df, feature)], axis=0)
     
     # Write df
-    df.to_csv(data_path + car + "/features.csv")  
+    df.to_csv(data_dir + car + "/features.csv")  
 
     return df_features
 
@@ -43,7 +45,7 @@ def get_feature_stats(car, df_features, feature_list):
     df_feature_stats = df_feature_stats.reset_index(drop=True)
 
     # Write df
-    df_feature_stats.to_csv(data_path + car + "/feature_stats.csv")  
+    df_feature_stats.to_csv(data_dir + car + "/feature_stats.csv")  
 
     return df_feature_stats
 
@@ -53,7 +55,7 @@ def get_feature_stats(car, df_features, feature_list):
 
 def main():
     car = "Porsche_911_GT3​"
-    df = pd.read_csv(data_path + car + "/sentiment_1.csv", header=[0], lineterminator='\n')
+    df = pd.read_csv(data_dir + car + "/sentiment_1.csv", header=[0], lineterminator='\n')
     df = df.drop(['Unnamed: 0'], axis=1, errors='ignore')
 
     feature_list = ["rim", "steering wheel", "engine", "color", "colour",

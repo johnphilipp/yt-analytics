@@ -4,7 +4,11 @@ from utils import sentiment
 from utils import wcloud
 from utils import features
 import pandas as pd
+import os
 
+
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, "data", car)
 
 data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
 car = "BMW_M3_Touring__Top_Gear" 

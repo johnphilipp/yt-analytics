@@ -1,17 +1,19 @@
 import streamlit as st
 import plotly.express as px
 import pandas as pd
+import os
 
 # https://github.com/streamlit/example-app-commenting/blob/main/utils/chart.py
 # https://share.streamlit.io/streamlit/example-app-commenting/main
 
-data_path = "/Users/philippjohn/Developer/youtube-analytics-data/"
+main_dir = os.path.dirname(__file__)
+data_dir = os.path.join(main_dir, "data")
 
 def merge_df(cars):
     # Get and merge dfs
     df = pd.DataFrame()
     for car in cars:
-        df_car = pd.read_csv(data_path + car + "/feature_stats.csv", lineterminator='\n')
+        df_car = pd.read_csv(data_dir + car + "/feature_stats.csv", lineterminator='\n')
         df_car = df_car.drop(['Unnamed: 0'], axis=1, errors='ignore')
         df_car['car'] = car
         df = pd.concat([df, df_car])
