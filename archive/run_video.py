@@ -2,7 +2,7 @@ from utils.video import Video
 
 #-----------------------------------------------------------------------
 
-car = "Nissan Skyline R32 GT-R"
+car = "Maserati MC20"
 channel = "TopGear"
 url = "https://www.youtube.com/watch?v=NMqT8YR_Al8"
 features = ["rim", "steering wheel", "engine", "color", "colour",

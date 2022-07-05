@@ -2,6 +2,18 @@ import pandas as pd
 
 #-----------------------------------------------------------------------
 
+# Return df with default defined features
+
+def get_defined_feature_list():
+    feature_list = ["rim", "steering wheel", "engine", "color", "colour",
+                "carbon", "light", "design", "sound", "interior", 
+                "exterior", "mirror", "body", "brake", "chassis", 
+                "suspension", "gearbox", "navigation", "infotainment",
+                "power", "acceleration", "handling"]
+    return feature_list
+
+#-----------------------------------------------------------------------
+
 # Return df which filters to only include content that contains meantion 
 # of a feature
 

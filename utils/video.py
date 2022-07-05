@@ -52,10 +52,18 @@ class Video:
         Return the data dir of self.
         """
         return self._dir
+    
+    def content_exists(self):
+        """
+        Return True if content of self already exists.
+        """
+        file_path = os.path.join(self._dir, "content.csv")
+        path = Path(file_path)
+        return path.is_file()
 
     def get_content(self):
         """
-        Return the content (comments and replies) of self.
+        Return the content (comments and replies) of self via YouTube API.
         """
         content.get_content(self._dir, self._url)
 
