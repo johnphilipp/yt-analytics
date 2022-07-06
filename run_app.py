@@ -8,9 +8,13 @@ import pandas as pd
 
 st.set_page_config(layout="centered", page_icon="🚗", page_title="YouTube Comment Analyzer")
 
-st.markdown("<h1 style='text-align: center; color: white;'>WDYT?", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: white;'>WDYT?</h1>", unsafe_allow_html=True)
 st.markdown("<h3 style='text-align: center; color: white; position: relative; bottom: 20px;'>🚗 🤔 💬 📊</h3>", unsafe_allow_html=True)
 app.space(1)
+
+st.subheader("Get Started")
+st.caption("### Choose one or two YouTube videos and title the car(s) and channel(s).")
+app.space(2)
 
 col1, col2 = st.columns([1,1])
 with col1:
@@ -73,7 +77,6 @@ if ((run == True)):
         # Merge video1 and video2 if applicable and display
         merged_videos_path = app.merge_df(videos_to_merge) # TODO: Could also return df straight but getting weird errors because instance of Video class is EMPTY after changing elements below
         st.experimental_set_query_params(my_saved_result=merged_videos_path)  # Save value
-        app.space(2)
 
 # Retrieve app state
 app_state = st.experimental_get_query_params()  
@@ -86,14 +89,20 @@ if "my_saved_result" in app_state:
     # Read df 
     merged_videos = pd.read_csv(saved_result, header=[0], lineterminator='\n')
 
+    st.markdown("""---""")
+    app.space(1)
+    st.subheader("Sentiment Radar Chart")
+    st.caption("### View the sentiment of all mentioned features in a radar chart.")
+    app.space(2)
+
     # Display videos that are in merged set
     all_videos = merged_videos["car"].unique().tolist()
-    videos = st.multiselect("Select videos to visualize", all_videos, all_videos)
+    videos = st.multiselect("Select cars to visualize", all_videos, all_videos)
     app.space(1)
 
     # Display features that are in merged set
     all_features = merged_videos["feature"].unique().tolist()
-    feature_list_visualize = st.multiselect("Choose features to visualize", all_features, all_features)
+    feature_list_visualize = st.multiselect("Select features to visualize", all_features, all_features)
     app.space(1)
 
     merged_videos = merged_videos[merged_videos["car"].isin(videos)]
