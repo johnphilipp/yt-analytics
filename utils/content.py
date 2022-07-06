@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import json
 import os
+import sys
 
 #-----------------------------------------------------------------------
 
@@ -121,10 +122,22 @@ def _get_replies(dir, comments):
 
 def get_content(dir, url):
     # Get video id from video url
-    if "=" in url:
-        vid = url.rsplit('=', 1)[-1]
-    else:
+    if "youtu.be" in url:
+        # e.g., https://youtu.be/kbulCM90w8w
         vid = url.rsplit('/', 1)[-1]
+        if "?" in url:
+            # e.g., https://youtu.be/kbulCM90w8w?t=269
+            vid = vid.split("?", 1)[0]
+    elif "youtube.com" in url:
+        # e.g., https://www.youtube.com/watch?v=kbulCM90w8w
+        vid = url.rsplit('v=', 1)[-1]
+        if "&" in url:
+            # e.g., https://www.youtube.com/watch?v=kbulCM90w8w&t=3s 
+            vid = vid.split("&", 1)[0]
+    else:
+        print("URL invalid")
+        sys.exit()
+    print(vid)
 
     # Get comments and replies data for video id
     comments = _get_comments(dir, vid)
