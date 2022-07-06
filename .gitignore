@@ -1,9 +1,5 @@
 data/
-archive/
+utils/dev_key.txt
+utils/__pycache__/
 .code-workspace
-.json
-.csv
-.jpg
 .DS_Store
-.pyc
-.txt
