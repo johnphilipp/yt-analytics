@@ -10,6 +10,12 @@ import sys
 
 # Return a list with comment data for a yt video
 
+def _get_dev_key():
+    main_dir = os.path.dirname(__file__)
+    with open(main_dir + "/dev_key.txt") as f:
+        dev_key = f.readline()
+    return dev_key
+
 def _get_comments(dir, vid):
     # -*- coding: utf-8 -*-
 
@@ -24,7 +30,7 @@ def _get_comments(dir, vid):
     # Setup
     api_service_name = "youtube"
     api_version = "v3"
-    DEVELOPER_KEY = "AIzaSyDtuq5QvhIxQFpZTSqYIQ7Hs2bSWhNyW0Y"
+    DEVELOPER_KEY = _get_dev_key()
 
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, developerKey = DEVELOPER_KEY)
@@ -72,7 +78,7 @@ def _get_replies(dir, comments):
     # Setup
     api_service_name = "youtube"
     api_version = "v3"
-    DEVELOPER_KEY = "AIzaSyDtuq5QvhIxQFpZTSqYIQ7Hs2bSWhNyW0Y"
+    DEVELOPER_KEY = _get_dev_key()
 
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, developerKey = DEVELOPER_KEY)
