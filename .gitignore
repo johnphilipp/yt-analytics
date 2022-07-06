@@ -1,5 +1,8 @@
 data/
+archive/
 .code-workspace
 .json
 .csv
 .jpg
+.DS_Store
+.pyc
