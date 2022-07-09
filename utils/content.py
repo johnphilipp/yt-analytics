@@ -12,9 +12,10 @@ import sys
 
 def _get_dev_key():
     main_dir = os.path.dirname(__file__)
-    with open(main_dir + "/dev_key.txt") as f:
-        dev_key = f.readline()
-    return dev_key
+    key_dir = os.path.join(main_dir, "../keys/youtube_key.txt")
+    with open(key_dir) as f:
+        key = f.readline()
+    return key
 
 def _get_comments(dir, vid):
     # -*- coding: utf-8 -*-
