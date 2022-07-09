@@ -5,17 +5,19 @@ import numpy as np
 import json
 import os
 import sys
+import toml
 
 #-----------------------------------------------------------------------
 
 # Return a list with comment data for a yt video
 
 def _get_dev_key():
-    main_dir = os.path.dirname(__file__)
-    key_dir = os.path.join(main_dir, "../keys/youtube_key.txt")
-    with open(key_dir) as f:
-        key = f.readline()
-    return key
+    # main_dir = os.path.dirname(__file__)
+    # key_dir = os.path.join(main_dir, "../keys/youtube_key.txt")
+    # with open(key_dir) as f:
+    #     key = f.readline()
+    # return key
+    return toml.load(".streamlit/secrets.toml")["youtube_key"]["youtube_key"]
 
 def _get_comments(dir, vid):
     # -*- coding: utf-8 -*-
